@@ -11,8 +11,9 @@ public class PlayerShip : Ship {
     // Energy related properties
     public int energyCapacity;
     EnergyManager energyMan;
-    
-    
+
+    // Gravity Manager
+    GravityManager gravMan;
 
     // Parameters relating to engine efficiency
     public int translationEnergyCost, rotationEnergyCost;
@@ -49,6 +50,18 @@ public class PlayerShip : Ship {
     }
 
 
+    void ApplyGravity()
+    {
+        // Function to be called on update to apply gravity forces
+
+        // Get current (gravity potential * ship mass) = gravity force on ship's position from gravity manager
+        Vector3 GravityForce = gravMan.getGravPotentialAtPoint(this.transform.position) * rigid.mass;       
+
+        // Add the force to the rigid body of the ship
+        rigid.AddForce(GravityForce);
+        
+    }
+
 
     // Ensure there is only one PlayerShip by creating a singleton
     void Awake()
@@ -67,6 +80,10 @@ public class PlayerShip : Ship {
         // Set setup energy manager
         energyMan = new EnergyManager(energyCapacity);
 
+        // Get scene Gravity Manager
+        gravMan = Object.FindObjectOfType<GravityManager>();
+
+
     }
 
 
@@ -76,6 +93,6 @@ public class PlayerShip : Ship {
     void Update () {
 
         GetKeyboardInputs();
-
+        ApplyGravity();
     }
 }

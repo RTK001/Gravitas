@@ -7,7 +7,7 @@ public class Ship : MonoBehaviour
 
     // Properties: Things a ship has
 
-    Rigidbody rigid;
+    protected Rigidbody rigid;
 
     
 
