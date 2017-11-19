@@ -19,6 +19,8 @@ public class PlayerShip : Ship {
     public int translationEnergyCost, rotationEnergyCost;
     public float forceAdditionRate, torqueAdditionRate;
 
+    // If speed is limited
+    public bool speedLimit = false;
 
 
 
@@ -27,15 +29,16 @@ public class PlayerShip : Ship {
         // Function to get the Keyboard inputs, then call the relevant functions if required
 
         // A set of variables relating to the current keyboard inputs, and converts them to ints to calcualte net values
-        int forward = System.Convert.ToInt32(Input.GetKey(KeyCode.W)) - System.Convert.ToInt32(Input.GetKey(KeyCode.S));        // Forward is the net forward - ie/  forward input -  backward input.
+        float forward = System.Convert.ToSingle(Input.GetKey(KeyCode.W)) - System.Convert.ToSingle(Input.GetKey(KeyCode.S));        // Forward is the net forward - ie/  forward input -  backward input.
 
-        int strafeRight = System.Convert.ToInt32(Input.GetKey(KeyCode.D)) - System.Convert.ToInt32(Input.GetKey(KeyCode.A));    // strafeRight is the net right - ie/  right -  left.
+        float strafeRight = System.Convert.ToSingle(Input.GetKey(KeyCode.D)) - System.Convert.ToSingle(Input.GetKey(KeyCode.A));    // strafeRight is the net right - ie/  right -  left.
 
-        int rotRight = System.Convert.ToInt32(Input.GetKey(KeyCode.E)) - System.Convert.ToInt32(Input.GetKey(KeyCode.Q));       // Net rotation
+        float rotRight = System.Convert.ToSingle(Input.GetKey(KeyCode.E)) - System.Convert.ToSingle(Input.GetKey(KeyCode.Q));       // Net rotation
 
         if ((forward * forward) > 0 || (strafeRight * strafeRight) > 0 || (rotRight * rotRight) > 0)                    // if any of the net keyboard inputs are greater than 0,
         {
-            int energyCost = translationEnergyCost * (forward*forward + strafeRight*strafeRight) + rotationEnergyCost * (rotRight * rotRight);           // calculate the total energy cost of the move
+            int energyCost = System.Convert.ToInt32(  translationEnergyCost * (forward*forward + strafeRight*strafeRight) + rotationEnergyCost * (rotRight * rotRight)  );           // calculate the total energy cost of the move
+
 
             if (energyMan.Subtract(energyCost, true))                           // if the energy cost was successfully paid (with safeguards as moving should not risk destroying the ship)
             {
@@ -94,5 +97,9 @@ public class PlayerShip : Ship {
 
         GetKeyboardInputs();
         ApplyGravity();
+
+        if (speedLimit)
+        {   LimitSpeed(); }
+
     }
 }

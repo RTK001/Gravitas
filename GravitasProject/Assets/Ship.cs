@@ -8,22 +8,34 @@ public class Ship : MonoBehaviour
     // Properties: Things a ship has
 
     protected Rigidbody rigid;
+    public Vector3 shipForward;
+    public Vector3 shipRight;
+    public Vector3 shipUp;
+
+    // Engine Limits
+    public float maxSpeed = 1f;
+    float sqrMaxSpeed;
 
     
-
-    public void Move(int forward, int strafeRight, int rotRight)
+    public void Move(float forward, float strafeRight, float rotRight)
     {
-        // Function called to move the ship
-        
-        // Convert to floats to 
-        float fwd = System.Convert.ToSingle(forward);
-        float rgt = System.Convert.ToSingle(strafeRight);
-        // float rotrgt = 
+        // Function called to move the ship using forces
+        // References the ship axes
 
-        rigid.AddForce((transform.up * fwd + transform.right * rgt));
-        rigid.AddTorque(transform.forward * (-rotRight));
+        rigid.AddForce((shipForward * forward + shipRight * strafeRight));
+        rigid.AddTorque(shipUp * (-rotRight));
 
-        
+    }
+
+    protected void LimitSpeed()
+        // A function to limit the speed of the ship.
+        // Typically used for enemies, but may be a useful feature for the player later.
+    {
+        if (rigid.velocity.sqrMagnitude > sqrMaxSpeed)  // If the ship's speed is greater than the limit (computed in squares for speed)
+        {
+
+            rigid.velocity = rigid.velocity.normalized * sqrMaxSpeed;       // set the ship velocity to the speed limit in the current direction.
+        }
     }
 
 
@@ -41,11 +53,19 @@ public class Ship : MonoBehaviour
             Debug.Log("Ship is  missing a Rigid Body Component", this);         // If not, alert the debugger that a rigid body must be assigned.
         }
 
+        // Set the axes of the ship
+        // Currently, all ships are created at 90 Degrees around X to the origin.
+        shipForward = this.transform.up;
+        shipRight = this.transform.right;
+        shipUp = this.transform.forward;
+
+        // Set the speed Limit square
+        sqrMaxSpeed = maxSpeed * maxSpeed;
+
     }
 	
 	// Update is called once per frame
 	void Update () {
-
 
     }
 }
