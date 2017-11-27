@@ -20,24 +20,40 @@ public class EnemyShip : Ship {
         DirectionToTarget.Normalize();          // Normalise it
 
         Move(DirectionToTarget.z, DirectionToTarget.x, 0);          // Move the ship in that direction
-    }   
+    }
 
 
-    
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.GetComponent<PlayerShip>() != null )
+        {
+            Target.ApplyDamage(System.Convert.ToInt32(collision.impulse.magnitude));
+        }
+        else if (collision.gameObject.GetComponent<GravitySource>() != null)
+        {
+            Debug.Log("Planet COllision!!!");
+            Destroy(this.gameObject);
+        }
+    }
 
-	
-	void Awake () {
+
+    void Awake () {
 
         Target = Object.FindObjectOfType<PlayerShip>();
 
     }
 	
+
 	// Update is called once per frame
 	void Update () {
 
         MoveToPoint(Target.transform.position); // Move towards the target
         LimitSpeed();                           // Limit the speed
+
         
 		
 	}
+    
+
 }
+

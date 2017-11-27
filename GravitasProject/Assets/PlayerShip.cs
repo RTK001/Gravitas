@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerShip : Ship {
 
+
     // create a static Playership called instance, set to null as a default. This is used to ensure this class is a singleton.
     public static PlayerShip instance = null;
 
@@ -50,6 +51,20 @@ public class PlayerShip : Ship {
                 Debug.Log("Out of Energy!");                                     // while testing and debugging, alert console if out of energy.
             }
         }
+    }
+
+
+
+    public void ApplyDamage (int damage)
+        // This function allows other objects, such as enemies, to apply damage to the ship
+    {
+        // Any player ship related functions, eg/ UI interactions, should go here.
+        Debug.Log("You've been damaged!");
+
+        // Subtract the damage from the player's energy. It can bring the energy below 0.
+        energyMan.Subtract(damage, false);
+
+
     }
 
 
