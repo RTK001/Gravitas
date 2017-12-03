@@ -11,9 +11,9 @@ public class EnemyManager : MonoBehaviour {
 
     public EnemyShip enemyPrefab;                        // The Prefab for the enemy
 
-    public float spawnTime = 10f;                       // spawn time between enemies
+    public float spawnTime = 1f;                       // spawn time between enemies
 
-    float timeOfNextEnemy;                               // Time the next enemy should be spawned
+    public int totalEnemies = 10;                       // the total enemies to spawm
 
 
     void CreateEnemy(Vector3 spawnLoc)
@@ -23,16 +23,18 @@ public class EnemyManager : MonoBehaviour {
     }
 
 
-    void EnemyTimer()
-        // This will update the time since last Enemy, and spawn enemies if appropriate.
-        // It will also contain code for more complex enemy spawning patterns.
+    IEnumerator EnemyCoRoutine()
     {
-        if (Time.time >= timeOfNextEnemy)           // If an enemy should be spawned
+        Debug.Log("CoroutineStarted!");
+        for (int i = 1; i < totalEnemies; i++)
         {
-            CreateEnemy(SpawnPoint);                // Create the enemy
-            timeOfNextEnemy += spawnTime;           // Reset the timer
+            yield return new WaitForSeconds(spawnTime);
+            CreateEnemy(SpawnPoint);
+            
         }
+        
     }
+
 
     void Awake()
     {
@@ -50,13 +52,7 @@ public class EnemyManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        timeOfNextEnemy = spawnTime;
+        StartCoroutine("EnemyCoRoutine");
 	}
 
-	
-	// Update is called once per frame
-	void Update () {
-
-        EnemyTimer();
-	}
 }

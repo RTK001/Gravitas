@@ -31,7 +31,6 @@ public class EnemyShip : Ship {
         }
         else if (collision.gameObject.GetComponent<GravitySource>() != null)
         {
-            Debug.Log("Planet COllision!!!");
             Destroy(this.gameObject);
         }
     }

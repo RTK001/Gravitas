@@ -64,7 +64,6 @@ public class PlayerShip : Ship {
         // Subtract the damage from the player's energy. It can bring the energy below 0.
         energyMan.Subtract(damage, false);
 
-
     }
 
 
@@ -73,10 +72,10 @@ public class PlayerShip : Ship {
         // Function to be called on update to apply gravity forces
 
         // Get current (gravity potential * ship mass) = gravity force on ship's position from gravity manager
-        Vector3 GravityForce = gravMan.getGravPotentialAtPoint(this.transform.position) * rigid.mass;       
+        Vector3 GravityForce = gravMan.getGravPotentialAtPoint(this.transform.position);       
 
         // Add the force to the rigid body of the ship
-        rigid.AddForce(GravityForce);
+        rigid.AddForce(GravityForce, ForceMode.Acceleration);
         
     }
 
