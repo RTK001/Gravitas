@@ -13,6 +13,9 @@ public class EnergyManager
 
     public UIManagerEnergyBar barUI;
 
+    public GameObject outOfEnergyPanel;     // the Panel that alerts the player the game is ove,r but allows them to keep going.
+    bool outOfEnergy;                       // To prevent alerting the player multipel times that they are out of energy.
+
     void PrintEnergy()
     {
         Debug.Log(currentEnergy);
@@ -28,14 +31,21 @@ public class EnergyManager
         }
 
         barUI = Object.FindObjectOfType<UIManagerEnergyBar>();
-        Debug.Log("EnergyBarSet!");
         barUI.SetEnergyBar(1.0f);
 
     }
 
+    void OutOfEnergy()
+    {
+        if (!outOfEnergyPanel.activeSelf && !outOfEnergy)
+        {
+            outOfEnergyPanel.GetComponent<MenuFunctions>().ShowHideMenu(outOfEnergyPanel);
+            outOfEnergy = true;
+        }
+    }
 
 
-    // Constructor with arguements
+    // Constructor with arguments
     public EnergyManager(int EnergyCapacity)
     {
         maxEnergy = EnergyCapacity;             // set the energy capacity and current energy based on the input arguement.
@@ -43,13 +53,19 @@ public class EnergyManager
 
         barUI = Object.FindObjectOfType<UIManagerEnergyBar>();
 
+        if (!outOfEnergyPanel)
+        {
+            outOfEnergyPanel = GameObject.Find("OutOfEnergyPanel");
+        }
+        outOfEnergyPanel.GetComponent<MenuFunctions>().ShowHideMenu(outOfEnergyPanel);
+        outOfEnergy = false;
+
         barUI.SetEnergyBar(1.0f);
     }
 
 
 
-
-    public bool Subtract(int energyCost, bool safeguards)
+    public bool Subtract(int energyCost)
     // This function adds relevant checks to the energy value before changing it, such as checking capacity, etc.
     // This will likely be called by the ship's engine when energy is used for propulsion. Hence, there would likely be safeguards to prevent energy going below 0
     // As Energy is a substitute for health, this function can be called by something external with intent to destroy the object. THis would be called without safeguards.
@@ -67,17 +83,9 @@ public class EnergyManager
 
         // If there is not sufficient energy to afford the transaction
         else
-        {
-            if (safeguards == false)     // This will bring the object below 0 energy, destroying it.
-            {
-
-                // this.Destroy();      // Run the destroy script for the object.
-                return true;           // The cost has been paid, but destroyed the owning object in the process.
-            }
-            else                        // If there are safeguards, the cost will not be paid.
-            {
-                return false;           // The cost has not been paid - this function will return false.
-            }
+        {  
+             OutOfEnergy();
+             return false;           // The cost has not been paid - this function will return false.     
         }
         
     }

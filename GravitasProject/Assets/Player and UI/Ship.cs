@@ -8,9 +8,9 @@ public class Ship : MonoBehaviour
     // Properties: Things a ship has
 
     protected Rigidbody rigid;
-    Vector3 shipForward;
-    Vector3 shipRight;
-    Vector3 shipUp;
+    protected Vector3 shipForward;
+    protected Vector3 shipRight;
+    protected Vector3 shipUp;
 
     // Engine Limits
     public float maxSpeed = 1f;
@@ -22,6 +22,7 @@ public class Ship : MonoBehaviour
         // Function called to move the ship using forces
         // References the ship axes
 
+        // apply a force and torque to the ship based on the arguements, with respect to the ship coordinates.
         rigid.AddForce((shipForward * forward + shipRight * strafeRight));
         rigid.AddTorque(shipUp * (-rotRight));
 
@@ -33,7 +34,6 @@ public class Ship : MonoBehaviour
     {
         if (rigid.velocity.sqrMagnitude > sqrMaxSpeed)  // If the ship's speed is greater than the limit (computed in squares for speed)
         {
-
             rigid.velocity = rigid.velocity.normalized * sqrMaxSpeed;       // set the ship velocity to the speed limit in the current direction.
         }
     }

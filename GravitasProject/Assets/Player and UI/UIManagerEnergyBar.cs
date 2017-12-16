@@ -8,7 +8,7 @@ public class UIManagerEnergyBar : MonoBehaviour {
 
     public float FullBarWidth;     // The width of the bar when full
 
-    public const float FullBarHeight = 20;
+    public const float FullBarHeight = 30;
 
     public RectTransform rectTransform;
 

@@ -10,6 +10,7 @@ public class MenuFunctions : MonoBehaviour {
     // Shows or hides the main menu panel
     {
         // If the panel is hidden, unhide it. If it's shown, hide it.
+        // The game is also paused using Time.timescale.
         if (item.activeSelf)
         {
             item.SetActive(false);
@@ -23,12 +24,13 @@ public class MenuFunctions : MonoBehaviour {
     }
 
     public void RestartLevel()
-    {
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
+    {   // Called to re-load the level
+        Time.timeScale = 1;             // Restart time
+        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);    // load the current scene again
     }
 
     public void GoToMainMenu()
-    {
+    {   // called to go to the main menu
         SceneManager.LoadScene("Main Menu Scene");
     }
 

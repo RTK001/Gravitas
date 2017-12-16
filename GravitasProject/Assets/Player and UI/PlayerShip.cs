@@ -12,6 +12,7 @@ public class PlayerShip : Ship {
     // Energy related properties
     public int energyCapacity;
     EnergyManager energyMan;
+   
 
     // Gravity Manager
     GravityManager gravMan;
@@ -41,14 +42,19 @@ public class PlayerShip : Ship {
             int energyCost = System.Convert.ToInt32(  translationEnergyCost * (forward*forward + strafeRight*strafeRight) + rotationEnergyCost * (rotRight * rotRight)  );           // calculate the total energy cost of the move
 
 
-            if (energyMan.Subtract(energyCost, true))                           // if the energy cost was successfully paid (with safeguards as moving should not risk destroying the ship)
+            if (energyMan.Subtract(energyCost))                           // if the energy cost was successfully paid (with safeguards as moving should not risk destroying the ship)
             {
-                Move(forward, strafeRight, rotRight);                           // Call the move function of the ship
+
+                // Update ship forward and ship right to account for new positions
+                shipForward =  transform.up;
+                shipRight =  transform.right;
+
+                Move(forward * forceAdditionRate , strafeRight * forceAdditionRate, rotRight * torqueAdditionRate);                           // Call the move function of the ship
 
             }
             else
             {
-                Debug.Log("Out of Energy!");                                     // while testing and debugging, alert console if out of energy.
+                
             }
         }
     }
@@ -58,11 +64,9 @@ public class PlayerShip : Ship {
     public void ApplyDamage (int damage)
         // This function allows other objects, such as enemies, to apply damage to the ship
     {
-        // Any player ship related functions, eg/ UI interactions, should go here.
-        Debug.Log("You've been damaged!");
 
         // Subtract the damage from the player's energy. It can bring the energy below 0.
-        energyMan.Subtract(damage, false);
+        energyMan.Subtract(damage);
 
     }
 
@@ -95,12 +99,12 @@ public class PlayerShip : Ship {
         // Set setup energy manager
         energyMan = new EnergyManager(energyCapacity);
 
+       
         // Get scene Gravity Manager
         gravMan = Object.FindObjectOfType<GravityManager>();
 
 
     }
-
 
 
 

@@ -15,7 +15,7 @@ public class EnemyManager : MonoBehaviour {
 
     public int totalEnemies = 10;                       // the total enemies to spawm
 
-
+    
     void CreateEnemy(Vector3 spawnLoc)
     {
         EnemyShip En = Instantiate(enemyPrefab);
@@ -27,9 +27,9 @@ public class EnemyManager : MonoBehaviour {
     {
         for (int i = 1; i < totalEnemies; i++)
         {
-            yield return new WaitForSeconds(spawnTime);
-            CreateEnemy(SpawnPoint);
             
+            CreateEnemy(SpawnPoint);
+            yield return new WaitForSeconds(spawnTime);
         }
         
     }
