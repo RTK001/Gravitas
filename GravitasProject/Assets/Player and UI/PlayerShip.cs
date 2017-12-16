@@ -91,8 +91,6 @@ public class PlayerShip : Ship {
         {
             Destroy(gameObject);
         }
- 
-        DontDestroyOnLoad(gameObject);
 
         // Set setup energy manager
         energyMan = new EnergyManager(energyCapacity);

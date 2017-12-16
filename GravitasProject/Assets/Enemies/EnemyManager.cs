@@ -25,7 +25,6 @@ public class EnemyManager : MonoBehaviour {
 
     IEnumerator EnemyCoRoutine()
     {
-        Debug.Log("CoroutineStarted!");
         for (int i = 1; i < totalEnemies; i++)
         {
             yield return new WaitForSeconds(spawnTime);

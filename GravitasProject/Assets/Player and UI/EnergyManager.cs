@@ -42,7 +42,7 @@ public class EnergyManager
         currentEnergy = maxEnergy;
 
         barUI = Object.FindObjectOfType<UIManagerEnergyBar>();
-        Debug.Log("EnergyBarSet!");
+
         barUI.SetEnergyBar(1.0f);
     }
 
