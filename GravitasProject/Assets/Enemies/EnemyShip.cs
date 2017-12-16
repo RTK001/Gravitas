@@ -49,8 +49,7 @@ public class EnemyShip : Ship {
         MoveToPoint(Target.transform.position); // Move towards the target
         LimitSpeed();                           // Limit the speed
 
-        
-		
+
 	}
     
 
