@@ -13,6 +13,12 @@ public class GravityManager : MonoBehaviour {
     // Gravitational constant - consider as calibration factor for force
     public float GravitationalConstant = 0.001f;
 
+    public int numberOfPlanetsToCreate;
+    public GameObject planetPrefab;
+    public Vector3 [] planetPositions;
+    public Vector3 [] planetrotationCentres;
+    public float[] planetRotationalSpeeds;
+
 
 
     public Vector3 getGravPotentialAtPoint (Vector3 point)
@@ -41,7 +47,6 @@ public class GravityManager : MonoBehaviour {
     public Vector3 getGravPotentialAtPoint(Vector3 point, float time)
     {
 
-        
         // Function to get the resultant gravitational potential on an object
         // Potential here is the gravity force divided by the ship's mass
 
@@ -74,15 +79,32 @@ public class GravityManager : MonoBehaviour {
         {
             Destroy(gameObject);
         }
+
+
+        // As Planet creationa and Planets array setting are used to create Trajectory Points, these have been placed in the Awake function to ensure they are done beforehand.
+        // create each planet. 
+        for (int i = 0; i > numberOfPlanetsToCreate; i++)
+        {
+            GameObject plan = Instantiate(planetPrefab);        // Create the Planet
+            plan.transform.position = planetPositions[i];       // set the planet to the desired position
+            plan.GetComponent<PlanetSpin>().centreOfRotation = planetrotationCentres[i];        // assign the relevant rotation properties tot he PlanetSpin component
+            plan.GetComponent<PlanetSpin>().angularSpeed = planetRotationalSpeeds[i];
+
+        }
+
+        // Get Each heavy object in the scene
+        Planets = Object.FindObjectsOfType<GravitySource>();
+
     }
 
     // Use this for initialization
     void Start () {
 
-        // Get Each heavy object in the scene
-        Planets = Object.FindObjectsOfType <GravitySource> ();
         
-	}
+
+
+
+    }
 	
 	// Update is called once per frame
 	void Update () {

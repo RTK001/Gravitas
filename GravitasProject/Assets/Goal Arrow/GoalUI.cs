@@ -40,6 +40,16 @@ public class GoalUI : MonoBehaviour {
 
     }
 
+    public void UpdateGoals()
+    {
+        if (goal == null)
+        {
+            goal = GameObject.Find("GoalPrefab");
+
+        }
+        
+    }
+
 
     // Use this for initialization
     void Start()
@@ -63,6 +73,8 @@ public class GoalUI : MonoBehaviour {
         player = Object.FindObjectOfType<PlayerShip>();
         
     }
+
+
 
     // Update is called once per frame
     void Update()

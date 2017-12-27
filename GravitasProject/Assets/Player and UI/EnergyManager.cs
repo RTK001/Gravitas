@@ -9,7 +9,7 @@ public class EnergyManager
 
 
     public int maxEnergy = 0;   // The maximum energy the object can have when on a "full tank"
-    private int currentEnergy = 0;  // The current energy
+    private int currentEnergy =0 ;  // The current energy
 
     public UIManagerEnergyBar barUI;
 
@@ -130,7 +130,7 @@ public class EnergyManager
 
 
     // A function to get the current Energy Value
-    int getEnergy()
+    int GetEnergy()
     {
         return currentEnergy;
     }

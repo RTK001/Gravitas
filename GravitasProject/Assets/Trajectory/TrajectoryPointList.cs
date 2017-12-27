@@ -66,7 +66,6 @@ public class TrajectoryPointList  {
     public TrajectoryPointList(GravityManager grav, PlayerShip playerShip, int noOfPoints)
     {   // Constructor Function
         
-
         gravMan = grav;                              // Needs to be passed the Gravity Manager, as this does not inherit from MonoBeahviour and cannot access FindObjectOfType<>()
         playerTransform = playerShip.transform;      // Needs to be passed the playership (though this could be modified to be any object with a transform and rigid components)
         rigid = playerShip.GetComponent<Rigidbody>();

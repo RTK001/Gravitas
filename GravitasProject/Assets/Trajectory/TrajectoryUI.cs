@@ -30,13 +30,12 @@ public class TrajectoryUI : MonoBehaviour {
 
    
     // Use this for initialization
-    void Start()
-    {
+    void Start () {
+
         // Initialise the TrajectoryPointList, passing the relevant objects.
         // These are required as TrajectoryPointList does not inherit from MonoBehaviour, and thus it cannot access FindObjectOfType<>();
         trajectoryPointList = new TrajectoryPointList(FindObjectOfType<GravityManager>(), FindObjectOfType<PlayerShip>(), numberOfPoints);
 
-        
         // Instantiate UIPointsList as the length of the trajectoryPoints
         UIPoints = new GameObject[trajectoryPointList.GetPointsToPlot().Count];
 
