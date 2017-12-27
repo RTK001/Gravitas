@@ -26,9 +26,18 @@ public class GoalManagerScript : MonoBehaviour {
 
     public void NextGoal()
     {
-        currentGoalEnumerator.MoveNext();
-        CreateGoal(currentGoalEnumerator.Current);
-        goalUI.UpdateGoals();
+        // Called to move the goal to the next specified one along the list
+
+        if (currentGoalEnumerator.MoveNext())       // If there is another goal to move to
+        {
+            CreateGoal(currentGoalEnumerator.Current);
+            goalUI.UpdateGoals();
+        }
+        else
+        {
+            Debug.Log("End!");
+        }
+        
     }
 
 	// Use this for initialization

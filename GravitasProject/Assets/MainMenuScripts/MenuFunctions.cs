@@ -23,6 +23,17 @@ public class MenuFunctions : MonoBehaviour {
         }
     }
 
+    public void LoadScene(string sceneToLoad)
+    {
+        SceneManager.LoadScene(sceneToLoad);
+    }
+
+    public void ExitGravitasGame()
+    {
+        SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
+        Application.Quit();
+    }
+
     public void RestartLevel()
     {   // Called to re-load the level
         Time.timeScale = 1;             // Restart time
