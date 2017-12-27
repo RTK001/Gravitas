@@ -17,6 +17,12 @@ public class GoalManagerScript : MonoBehaviour {
 
     GoalUI goalUI;
 
+
+    // Events system for Game won
+    public delegate void GameWinAction();   // A delegate defining the function signature to be called on game win
+    public static event GameWinAction OnGameWin;        // The event to be called when the game is won
+
+
     void CreateGoal(Vector3 pos)
     {
         GameObject currentGoal = Instantiate(goalPrefab);
@@ -28,16 +34,19 @@ public class GoalManagerScript : MonoBehaviour {
     {
         // Called to move the goal to the next specified one along the list
 
-        if (currentGoalEnumerator.MoveNext())       // If there is another goal to move to
+        if (currentGoalEnumerator.MoveNext())       // Increment the iterator to the next goal in the array, and excecute the code if there is
         {
-            CreateGoal(currentGoalEnumerator.Current);
-            goalUI.UpdateGoals();
-        }
-        else
-        {
-            Debug.Log("End!");
+            CreateGoal(currentGoalEnumerator.Current);      // Create the new goal
+            goalUI.UpdateGoals();                           // Alert the UI that a new goal has been created.
         }
         
+        else                            // If there are no new goals to move to:
+        {
+            if (OnGameWin != null)  // If there are subsctibers to the OnGameWin event
+            {
+                OnGameWin();
+            }
+        }   
     }
 
 	// Use this for initialization

@@ -6,6 +6,7 @@ public class PauseOnEscape : MenuFunctions {
 
     public GameObject mainMenuPanel;
     public GameObject outOfEnergyPanel;
+    public GameObject gameWonPanel;
 
     void Start()
     {
@@ -19,12 +20,21 @@ public class PauseOnEscape : MenuFunctions {
         {
             outOfEnergyPanel = GameObject.Find("OutOfEnergyPanel");
         }
+
+        if (!gameWonPanel)
+        {
+            gameWonPanel = GameObject.Find("GameWonPanel");
+        }
+        if (gameWonPanel.activeSelf)
+        {
+            ShowHideMenu(gameWonPanel);
+        }
     }
 
     // Update is called once per frame
     void Update ()
     {
-		if (Input.GetKeyDown(KeyCode.Escape) && !outOfEnergyPanel.activeSelf)   // If esc is pressed AND the out of energy panel is not active
+		if (Input.GetKeyDown(KeyCode.Escape) && !outOfEnergyPanel.activeSelf && !gameWonPanel.activeSelf)   // If esc is pressed AND the out of energy panel is not active
         {
             ShowHideMenu(mainMenuPanel);
         }
