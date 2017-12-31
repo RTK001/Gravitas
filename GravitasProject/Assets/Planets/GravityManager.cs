@@ -8,7 +8,7 @@ public class GravityManager : MonoBehaviour {
     public static GravityManager instance = null;
 
     // Create list of Gravity sources (Heavy planets) in the scene
-    private GravitySource [] Planets;
+    private List<GravitySource> planetsList;
 
     // Gravitational constant - consider as calibration factor for force
     public float GravitationalConstant = 0.001f;
@@ -18,6 +18,15 @@ public class GravityManager : MonoBehaviour {
     public Vector3 [] planetPositions;
     public Vector3 [] planetrotationCentres;
     public float[] planetRotationalSpeeds;
+
+    public void CreatePlanet(Vector3 position, Vector3 rotationCentre, float rotationSpeed)
+    {
+        GameObject plan = Instantiate(planetPrefab);        // Create the Planet
+        plan.transform.position = position;       // set the planet to the desired position
+        plan.GetComponent<PlanetSpin>().centreOfRotation = rotationCentre;        // assign the relevant rotation properties tot he PlanetSpin component
+        plan.GetComponent<PlanetSpin>().angularSpeed = rotationSpeed;
+        planetsList.Add(plan.GetComponent<GravitySource>());
+    }
 
 
 
@@ -30,7 +39,7 @@ public class GravityManager : MonoBehaviour {
         Vector3 resultant = new Vector3(0,0,0);
 
         // Apply the gravity force from each planet individually
-        foreach (GravitySource Planet in Planets)
+        foreach (GravitySource Planet in planetsList)
         {
             // get the relative position from the point to the gravity source
             // this is done by getting the position of each planet and vector subtracting the coordinates of the ship
@@ -55,7 +64,7 @@ public class GravityManager : MonoBehaviour {
         float deltaTime = time - Time.time;
 
         // Apply the gravity force from each planet individually
-        foreach (GravitySource Planet in Planets)
+        foreach (GravitySource Planet in planetsList)
         {
             // get the relative position from the point to the gravity source
             // this is done by getting the position of each planet and vector subtracting the coordinates of the ship
@@ -80,34 +89,15 @@ public class GravityManager : MonoBehaviour {
             Destroy(gameObject);
         }
 
+        planetsList = new List<GravitySource>(FindObjectsOfType<GravitySource>());        // Initialise Planets List with each heavy object in the scene
 
-        // As Planet creationa and Planets array setting are used to create Trajectory Points, these have been placed in the Awake function to ensure they are done beforehand.
+        // As Planet creation and Planets array setting are used to create Trajectory Points, these have been placed in the Awake function to ensure they are done beforehand.
         // create each planet. 
         for (int i = 0; i > numberOfPlanetsToCreate; i++)
         {
-            GameObject plan = Instantiate(planetPrefab);        // Create the Planet
-            plan.transform.position = planetPositions[i];       // set the planet to the desired position
-            plan.GetComponent<PlanetSpin>().centreOfRotation = planetrotationCentres[i];        // assign the relevant rotation properties tot he PlanetSpin component
-            plan.GetComponent<PlanetSpin>().angularSpeed = planetRotationalSpeeds[i];
-
+            CreatePlanet(planetPositions[i], planetrotationCentres[i], planetRotationalSpeeds[i]);
         }
 
-        // Get Each heavy object in the scene
-        Planets = Object.FindObjectsOfType<GravitySource>();
-
     }
 
-    // Use this for initialization
-    void Start () {
-
-        
-
-
-
-    }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

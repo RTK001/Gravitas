@@ -34,6 +34,7 @@ public class GoalManagerScript : MonoBehaviour {
     public void NextGoal()
     {
 
+        enumeratorCounter++;
 
         // Called to move the goal to the next specified one along the list
         if (currentGoalEnumerator.MoveNext())       // Increment the iterator to the next goal in the array, and excecute the code if there is
@@ -41,11 +42,10 @@ public class GoalManagerScript : MonoBehaviour {
             CreateGoal(currentGoalEnumerator.Current);      // Create the new goal
         }
 
-        enumeratorCounter++;
 
         if (OnGoalComplete != null)  // If there are subsctibers to the OnGoalComplete event
         {
-            OnGoalComplete(enumeratorCounter, goals.Length);
+            OnGoalComplete(enumeratorCounter -1, goals.Length);         // the enumerator counter should be reduced by 1, as it is representing the last completed goal, rather than the current goal.
         }
 
     }
@@ -64,10 +64,10 @@ public class GoalManagerScript : MonoBehaviour {
 
         goalUI = GameObject.FindObjectOfType<GoalUI>();
         currentGoalEnumerator = ((IEnumerable<Vector3>) goals).GetEnumerator();
-        
-        NextGoal();
-        enumeratorCounter = 0;      // Reset the Enumerator counter to 0, setting it to be one lower than the currentGoalEnumerator (IE/ completed goals, rather than loaded goals)
 
+        enumeratorCounter = 0;
+        NextGoal();
+      
     }
 	
 
