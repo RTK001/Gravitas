@@ -4,39 +4,64 @@ using UnityEngine;
 
 public class PauseOnEscape : MenuFunctions {
 
-    public GameObject mainMenuPanel;
-    public GameObject outOfEnergyPanel;
-    public GameObject gameWonPanel;
+
+    public List<GameObject> panels;
+
+    bool AllPanelsInactive()
+    {
+        foreach(GameObject panel in panels)
+        {
+            if (panel.activeSelf)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+     GameObject GetActivePanel()
+    {
+        foreach (GameObject panel in panels)
+        {
+            if (panel.activeSelf)
+            {
+                return panel;
+            }
+        }
+        return null;
+    }
+
 
     void Start()
     {
-        mainMenuPanel = GameObject.Find("MainMenuPanel");
-        if (mainMenuPanel.activeSelf)
+
+        foreach(GameObject panel in panels)
         {
-            ShowHideMenu(mainMenuPanel);
+            if (panel.activeSelf)
+            {
+                ShowHideMenu(panel);
+            }
         }
 
-        if (!outOfEnergyPanel)
-        {
-            outOfEnergyPanel = GameObject.Find("OutOfEnergyPanel");
-        }
-
-        if (!gameWonPanel)
-        {
-            gameWonPanel = GameObject.Find("GameWonPanel");
-        }
-        if (gameWonPanel.activeSelf)
-        {
-            ShowHideMenu(gameWonPanel);
-        }
     }
 
     // Update is called once per frame
     void Update ()
     {
-		if (Input.GetKeyDown(KeyCode.Escape) && !outOfEnergyPanel.activeSelf && !gameWonPanel.activeSelf)   // If esc is pressed AND the out of energy panel is not active
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            ShowHideMenu(mainMenuPanel);
+            if (AllPanelsInactive() )  // If esc is pressed AND the out of energy panel is not active
+            {
+                ShowHideMenu(panels[0]);
+            }
+            else
+            {
+                ShowHideMenu(GetActivePanel());
+            }
         }
+		
+
+        
 	}
 }

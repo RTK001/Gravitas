@@ -27,7 +27,6 @@ public class EnemyManager : MonoBehaviour {
     {
         for (int i = 1; i < totalEnemies; i++)
         {
-            
             CreateEnemy(SpawnPoint);
             yield return new WaitForSeconds(spawnTime);
         }
