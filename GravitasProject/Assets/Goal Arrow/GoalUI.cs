@@ -40,14 +40,9 @@ public class GoalUI : MonoBehaviour {
 
     }
 
-    public void UpdateGoals()
+    public void UpdateGoals( GameObject newGoal)
     {
-        if (goal == null)
-        {
-            goal = GameObject.Find("GoalPrefab");
-
-        }
-        
+        goal = newGoal;
     }
 
 
@@ -79,24 +74,25 @@ public class GoalUI : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        if (goal)
+        {
+            // Set the arrow location to be in the direction of the goal
 
-        // Set the arrow location to be in the direction of the goal
-
-        // Get the direction vector from the ship to the goal
-        Vector3 vecToGoal = goal.transform.position - player.transform.position;
-        // Set the arrow position to be ArrowDistanceFromShip in the direction of the goal from the ship
-        arrow.transform.position = player.transform.position + vecToGoal.normalized * ArrowDistanceFromShip;
+            // Get the direction vector from the ship to the goal
+            Vector3 vecToGoal = goal.transform.position - player.transform.position;
+            // Set the arrow position to be ArrowDistanceFromShip in the direction of the goal from the ship
+            arrow.transform.position = player.transform.position + vecToGoal.normalized * ArrowDistanceFromShip;
 
 
-        // Set the arrow rotation to be away from the player
+            // Set the arrow rotation to be away from the player
 
-        // create a relative vector from the player to the arrow, but set the z component equal to zero.
-        Vector3 temp = new Vector3(arrow.transform.position.x - player.transform.position.x, arrow.transform.position.y - player.transform.position.y, 0);
-        // create a rotation quaternion, set to be from the arrow to the player
-        Quaternion rot = Quaternion.LookRotation(temp);
-        // Set the arrow to be "looking at" the player. Add some angles to ensure the arrows are rotated correctly.
-        arrow.transform.rotation = rot * Quaternion.Euler(-90, -90, 0);
-
+            // create a relative vector from the player to the arrow, but set the z component equal to zero.
+            Vector3 temp = new Vector3(arrow.transform.position.x - player.transform.position.x, arrow.transform.position.y - player.transform.position.y, 0);
+            // create a rotation quaternion, set to be from the arrow to the player
+            Quaternion rot = Quaternion.LookRotation(temp);
+            // Set the arrow to be "looking at" the player. Add some angles to ensure the arrows are rotated correctly.
+            arrow.transform.rotation = rot * Quaternion.Euler(-90, -90, 0);
+        }
     }
     
 }

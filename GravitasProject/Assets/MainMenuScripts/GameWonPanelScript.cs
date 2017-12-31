@@ -12,13 +12,17 @@ public class GameWonPanelScript : MonoBehaviour {
 
         menu = this.GetComponent<MenuFunctions>(); 
 
-        GoalManagerScript.OnGameWin += ShowHideGameWonPanel;
+        GoalManagerScript.OnGoalComplete += ShowHideGameWonPanel;
 		
 	}
 	
-    void ShowHideGameWonPanel()
+    void ShowHideGameWonPanel(int currentGoal, int totalGoals)
     {
-        menu.ShowHideMenu(this.gameObject);
+        if (currentGoal == totalGoals)
+        {
+            menu.ShowHideMenu(this.gameObject);
+        }
+        
     }
 
 }

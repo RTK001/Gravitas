@@ -10,6 +10,7 @@ public class GoalCollision : MonoBehaviour {
     {
         goalMan.NextGoal();
         Destroy(this.gameObject);
+        
     }
 
 
@@ -17,7 +18,6 @@ public class GoalCollision : MonoBehaviour {
     void Start () {
 
         goalMan = GameObject.FindObjectOfType<GoalManagerScript>();
-		
 	}
 	
 	

@@ -14,39 +14,40 @@ public class GoalManagerScript : MonoBehaviour {
     public Vector3 [] goals;
     public GameObject goalPrefab;
     IEnumerator<Vector3> currentGoalEnumerator;
+    int enumeratorCounter = 0; // Required to count the current goal as Enumerators do not retain the index.
 
     GoalUI goalUI;
 
 
     // Events system for Game won
-    public delegate void GameWinAction();   // A delegate defining the function signature to be called on game win
-    public static event GameWinAction OnGameWin;        // The event to be called when the game is won
+    public delegate void GameWinAction(int currentGoal, int totalGoals);   // A delegate defining the function signature to be called on game win
+    public static event GameWinAction OnGoalComplete;        // The event to be called when a goal is completed
 
 
     void CreateGoal(Vector3 pos)
     {
         GameObject currentGoal = Instantiate(goalPrefab);
         currentGoal.transform.position = pos;
-
+        goalUI.UpdateGoals(currentGoal);                           // Alert the UI that a new goal has been created.
     }
 
     public void NextGoal()
     {
-        // Called to move the goal to the next specified one along the list
 
+
+        // Called to move the goal to the next specified one along the list
         if (currentGoalEnumerator.MoveNext())       // Increment the iterator to the next goal in the array, and excecute the code if there is
         {
             CreateGoal(currentGoalEnumerator.Current);      // Create the new goal
-            goalUI.UpdateGoals();                           // Alert the UI that a new goal has been created.
         }
-        
-        else                            // If there are no new goals to move to:
+
+        enumeratorCounter++;
+
+        if (OnGoalComplete != null)  // If there are subsctibers to the OnGoalComplete event
         {
-            if (OnGameWin != null)  // If there are subsctibers to the OnGameWin event
-            {
-                OnGameWin();
-            }
-        }   
+            OnGoalComplete(enumeratorCounter, goals.Length);
+        }
+
     }
 
 	// Use this for initialization
@@ -62,17 +63,12 @@ public class GoalManagerScript : MonoBehaviour {
         }
 
         goalUI = GameObject.FindObjectOfType<GoalUI>();
-
         currentGoalEnumerator = ((IEnumerable<Vector3>) goals).GetEnumerator();
-
+        
         NextGoal();
+        enumeratorCounter = 0;      // Reset the Enumerator counter to 0, setting it to be one lower than the currentGoalEnumerator (IE/ completed goals, rather than loaded goals)
 
     }
 	
 
-
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }
