@@ -12,11 +12,14 @@ public class GoalManagerScript : MonoBehaviour {
     public static GoalManagerScript instance;
 
     public Vector3 [] goals;
+
     public GameObject goalPrefab;
     IEnumerator<Vector3> currentGoalEnumerator;
     int enumeratorCounter = 0; // Required to count the current goal as Enumerators do not retain the index.
 
+
     GoalUI goalUI;
+
 
 
     // Events system for Game won
@@ -31,6 +34,7 @@ public class GoalManagerScript : MonoBehaviour {
         goalUI.UpdateGoals(currentGoal);                           // Alert the UI that a new goal has been created.
     }
 
+
     public void NextGoal()
     {
 
@@ -42,7 +46,6 @@ public class GoalManagerScript : MonoBehaviour {
             CreateGoal(currentGoalEnumerator.Current);      // Create the new goal
         }
 
-
         if (OnGoalComplete != null)  // If there are subsctibers to the OnGoalComplete event
         {
             OnGoalComplete(enumeratorCounter -1, goals.Length);         // the enumerator counter should be reduced by 1, as it is representing the last completed goal, rather than the current goal.
@@ -50,8 +53,9 @@ public class GoalManagerScript : MonoBehaviour {
 
     }
 
+
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 
         if (instance == null)               // If the static value is null, set it to be this awakened instance.
         {
@@ -62,12 +66,14 @@ public class GoalManagerScript : MonoBehaviour {
             Destroy(gameObject);
         }
 
+
+
         goalUI = GameObject.FindObjectOfType<GoalUI>();
         currentGoalEnumerator = ((IEnumerable<Vector3>) goals).GetEnumerator();
 
         enumeratorCounter = 0;
         NextGoal();
-      
+        
     }
 	
 

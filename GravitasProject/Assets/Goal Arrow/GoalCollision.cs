@@ -8,6 +8,7 @@ public class GoalCollision : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
+
         goalMan.NextGoal();
         Destroy(this.gameObject);
         

@@ -18,9 +18,10 @@ public class GameWonPanelScript : MonoBehaviour {
 	
     void ShowHideGameWonPanel(int currentGoal, int totalGoals)
     {
+
         if (currentGoal == totalGoals)
         {
-            menu.ShowHideMenu(this.gameObject);
+            menu.ShowHideMenu(gameObject);
         }
         
     }
