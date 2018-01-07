@@ -105,7 +105,7 @@ public class TrajectoryPoint
                 // Set the New position to be the previous position + the mean(average) velocity * Time
                 Position = prevPoint.GetPosition() + (prevPoint.GetVelocity() + Velocity) * 0.5f * timeIncrement;
                 // calculate the acceleration due to gravity at the newly calculated position.
-                Acceleration = gravMan.getGravPotentialAtPoint(prevPoint.GetPosition(), projectedTime);
+                Acceleration = gravMan.GetGravPotentialAtPoint(prevPoint.GetPosition(), projectedTime);
             }
         }
     }

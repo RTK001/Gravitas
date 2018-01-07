@@ -30,7 +30,7 @@ public class GravityManager : MonoBehaviour {
 
 
 
-    public Vector3 getGravPotentialAtPoint (Vector3 point)
+    public Vector3 GetGravPotentialAtPoint (Vector3 point)
     {
         // Function to get the resultant gravitational potential on an object
         // Potential here is the gravity force divided by the ship's mass
@@ -53,7 +53,7 @@ public class GravityManager : MonoBehaviour {
         return resultant * GravitationalConstant;
     }
 
-    public Vector3 getGravPotentialAtPoint(Vector3 point, float time)
+    public Vector3 GetGravPotentialAtPoint(Vector3 point, float time)
     {
 
         // Function to get the resultant gravitational potential on an object

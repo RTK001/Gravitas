@@ -17,7 +17,6 @@ public class GoalManagerScript : MonoBehaviour {
     IEnumerator<Vector3> currentGoalEnumerator;
     int enumeratorCounter = 0; // Required to count the current goal as Enumerators do not retain the index.
 
-
     GoalUI goalUI;
 
 
@@ -66,13 +65,13 @@ public class GoalManagerScript : MonoBehaviour {
             Destroy(gameObject);
         }
 
-
+        OnGoalComplete = null;      // Clear any pre-existing subscribers. Important after reloading the level.
 
         goalUI = GameObject.FindObjectOfType<GoalUI>();
         currentGoalEnumerator = ((IEnumerable<Vector3>) goals).GetEnumerator();
 
         enumeratorCounter = 0;
-        NextGoal();
+        NextGoal();                 // Initialise Enumerator to First value in Array
         
     }
 	

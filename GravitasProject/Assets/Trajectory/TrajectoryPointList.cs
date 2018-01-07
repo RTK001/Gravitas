@@ -55,7 +55,7 @@ public class TrajectoryPointList  {
 
             // Reset the first two trajectoryPoints in the array to the current player/object position, to then update the list from the start.
             // This is done periodically to compensate for calculation errors, collision and player input.
-            Vector3 acc = gravMan.getGravPotentialAtPoint(playerTransform.position);        // Made a temporary variable to save this expensive operation being called twice.
+            Vector3 acc = gravMan.GetGravPotentialAtPoint(playerTransform.position);        // Made a temporary variable to save this expensive operation being called twice.
             trajectoryPoints[0].SetEqual(playerTransform.position, rigid.velocity, acc);    // Set point 0 equal to playerTransform
             trajectoryPoints[1].SetEqual(playerTransform.position, rigid.velocity, acc);    // Set point 1 equal to point 0 as an initial guess.
         }
@@ -76,7 +76,7 @@ public class TrajectoryPointList  {
         pointsToPlot = new List<Vector3>();
 
         // Add point 1 to the TrajectoryPoint list. This uses a different constructor as there will be no previous point to pass it.
-        trajectoryPoints.Add(new TrajectoryPoint(playerTransform.position, rigid.velocity, gravMan.getGravPotentialAtPoint(playerTransform.position), gravMan));
+        trajectoryPoints.Add(new TrajectoryPoint(playerTransform.position, rigid.velocity, gravMan.GetGravPotentialAtPoint(playerTransform.position), gravMan));
 
         for (int i = 1; i < numberOfPointsToPlot; i++)      // For each point to plot
         {

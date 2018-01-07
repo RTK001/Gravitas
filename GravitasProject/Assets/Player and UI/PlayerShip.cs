@@ -76,7 +76,7 @@ public class PlayerShip : Ship {
         // Function to be called on update to apply gravity forces
 
         // Get current (gravity potential * ship mass) = gravity force on ship's position from gravity manager
-        Vector3 GravityForce = gravMan.getGravPotentialAtPoint(this.transform.position);       
+        Vector3 GravityForce = gravMan.GetGravPotentialAtPoint(this.transform.position);       
 
         // Add the force to the rigid body of the ship
         rigid.AddForce(GravityForce, ForceMode.Acceleration);

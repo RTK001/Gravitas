@@ -36,8 +36,8 @@ public class MenuFunctions : MonoBehaviour {
 
     public void RestartLevel()
     {   // Called to re-load the level
-        Time.timeScale = 1;             // Restart time
-        SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);    // load the current scene again
+        
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);    // load the current scene again
     }
 
     public void GoToMainMenu()

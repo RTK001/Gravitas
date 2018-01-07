@@ -7,6 +7,9 @@ public class PauseOnEscape : MenuFunctions {
 
     public List<GameObject> panels;
 
+    public GameObject defaultManiMenuPanel;     // The panel to default show or hide when escape is pressed
+    public GameObject gameWonPanel;             // The panel to subscribe to OnGoalComplete
+
     bool AllPanelsInactive()
     {
         foreach(GameObject panel in panels)
@@ -32,17 +35,32 @@ public class PauseOnEscape : MenuFunctions {
         return null;
     }
 
+    void ShowHideGameWonPanel(int currentGoal, int totalGoals)
+    {
+        if (currentGoal == totalGoals)
+        {
+            ShowHideMenu(gameWonPanel);
+        }
+    }
+    
 
     void Start()
     {
+        // Initialise panel show/hide subscriptions here
 
-        foreach(GameObject panel in panels)
+        GoalManagerScript.OnGoalComplete += ShowHideGameWonPanel;
+        
+
+        // Hide all panels
+        foreach (GameObject panel in panels)
         {
             if (panel.activeSelf)
             {
                 ShowHideMenu(panel);
             }
         }
+
+        
 
     }
 
@@ -51,17 +69,16 @@ public class PauseOnEscape : MenuFunctions {
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (AllPanelsInactive() )  // If esc is pressed AND the out of energy panel is not active
+            if (AllPanelsInactive() )  // If all panels are inactive
             {
-                ShowHideMenu(panels[0]);
+                
+                ShowHideMenu(defaultManiMenuPanel);    // Escape will show/hide the default Main Menu Panel
             }
             else
             {
-                ShowHideMenu(GetActivePanel());
+                ShowHideMenu(GetActivePanel());     // If a different panel is active, escape will show/hide the active panel
             }
         }
-		
-
         
 	}
 }

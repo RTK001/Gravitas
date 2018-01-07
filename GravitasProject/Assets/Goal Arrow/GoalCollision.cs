@@ -2,24 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GoalCollision : MonoBehaviour {
+public class GoalCollision : MonoBehaviour
+{
 
     GoalManagerScript goalMan;
 
+
     private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.GetComponent<PlayerShip>())     // Check if the collider is player
+        {
+            goalMan.NextGoal();         // Advance the level to the next goal
+            Destroy(this.gameObject);   // Destroy this goal
+        }
 
-        goalMan.NextGoal();
-        Destroy(this.gameObject);
-        
     }
 
 
     // Use this for initialization
-    void Start () {
+    void Awake()
+    {
 
-        goalMan = GameObject.FindObjectOfType<GoalManagerScript>();
-	}
-	
-	
+        goalMan = GameObject.FindObjectOfType<GoalManagerScript>();     // Get the GoalManager
+    }
 }
